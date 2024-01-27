@@ -1,1 +1,1 @@
-# Windows11ContextMenuBlocker
+# Windows 11 Context Menu Blocker
