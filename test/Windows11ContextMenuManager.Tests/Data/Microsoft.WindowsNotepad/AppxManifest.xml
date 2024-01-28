@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Package IgnorableNamespaces="uap uap2 uap3 uap4 uap10 uap11 mp rescap rescap3 desktop desktop6 build" xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10" xmlns:uap11="http://schemas.microsoft.com/appx/manifest/uap/windows10/11" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:rescap3="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities/3" xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4" xmlns:desktop5="http://schemas.microsoft.com/appx/manifest/desktop/windows10/5" xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6" xmlns:build="http://schemas.microsoft.com/developer/appx/2015/build">
+  
+  <Identity Name="Microsoft.WindowsNotepad" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" Version="11.2311.35.0" ProcessorArchitecture="x64"/>
+  <mp:PhoneIdentity PhonePublisherId="95d94207-0c7c-47ed-82db-d75c81153c35" PhoneProductId="3eb154fc-6f53-456f-98fb-31f80c048be3"/>
+  <Properties>
+    <DisplayName>ms-resource:Resources/AppStoreName</DisplayName>
+    <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
+    <Logo>Assets\NotepadStoreLogo.png</Logo>
+    <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.22000.0" MaxVersionTested="10.0.22000.0"/>
+    <PackageDependency Name="Microsoft.VCLibs.140.00.UWPDesktop" MinVersion="14.0.30704.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"/>
+    <PackageDependency Name="Microsoft.UI.Xaml.2.8" MinVersion="8.2207.14002.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"/>
+    <PackageDependency Name="Microsoft.VCLibs.140.00" MinVersion="14.0.30704.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"/>
+  </Dependencies>
+  <Resources>
+    <Resource Language="EN-US"/>
+    <Resource Language="EN-GB"/>
+    <Resource uap:Scale="200"/>
+    
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="Notepad\Notepad.exe" EntryPoint="Windows.FullTrustApplication" uap11:CurrentDirectoryPath="$(env:USERPROFILE)">
+      <uap:VisualElements DisplayName="ms-resource:Resources/AppDisplayName_Notepad" Description="ms-resource:Resources/AppDescription_Notepad" BackgroundColor="#0078D4" Square150x150Logo="Assets\NotepadMedTile.png" Square44x44Logo="Assets\NotepadAppList.png">
+        <uap:DefaultTile ShortName="ms-resource:Resources/AppDisplayName_Notepad" Wide310x150Logo="Assets\NotepadWideTile.png" Square310x310Logo="Assets\NotepadLargeTile.png" Square71x71Logo="Assets\NotepadSmallTile.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="wide310x150Logo"/>
+            <uap:ShowOn Tile="square150x150Logo"/>
+            <uap:ShowOn Tile="square310x310Logo"/>
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
+      </uap:VisualElements>
+      <Extensions>
+        <uap3:Extension Category="windows.appExecutionAlias" EntryPoint="Windows.FullTrustApplication">
+          <uap3:AppExecutionAlias>
+            <desktop:ExecutionAlias Alias="notepad.exe"/>
+          </uap3:AppExecutionAlias>
+        </uap3:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="inffile">
+            <uap:DisplayName>ms-resource:Resources/FileTypeDisplayName_Inffile</uap:DisplayName>
+            <uap:Logo>Assets\inifile.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.inf</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap2:SupportedVerbs>
+              <uap3:Verb Id="Edit" Parameters="%1">ms-resource:Resources/ShellContextMenuEdit</uap3:Verb>
+              <uap3:Verb Id="Print" Parameters="/p %1">ms-resource:Resources/ShellContextMenuPrint</uap3:Verb>
+              <uap3:Verb Id="PrintTo" Parameters="/pt &quot;%1&quot; &quot;%2&quot; &quot;%3&quot; &quot;%4&quot;">ms-resource:Resources/ShellContextMenuPrint</uap3:Verb>
+            </uap2:SupportedVerbs>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="inifile">
+            <uap:DisplayName>ms-resource:Resources/FileTypeDisplayName_Inifile</uap:DisplayName>
+            <uap:Logo>Assets\inifile.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.ini</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap2:SupportedVerbs>
+              <uap3:Verb Id="Edit" Parameters="%1">ms-resource:Resources/ShellContextMenuEdit</uap3:Verb>
+              <uap3:Verb Id="Print" Parameters="/p %1">ms-resource:Resources/ShellContextMenuPrint</uap3:Verb>
+              <uap3:Verb Id="PrintTo" Parameters="/pt &quot;%1&quot; &quot;%2&quot; &quot;%3&quot; &quot;%4&quot;">ms-resource:Resources/ShellContextMenuPrint</uap3:Verb>
+            </uap2:SupportedVerbs>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="ps1file">
+            <uap:DisplayName>ms-resource:Resources/FileTypeDisplayName_Ps1file</uap:DisplayName>
+            <uap:Logo>Assets\ps1file.png</uap:Logo>
+            <uap:EditFlags AlwaysUnsafe="true"/>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.ps1</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="psd1file">
+            <uap:DisplayName>ms-resource:Resources/FileTypeDisplayName_Psd1file</uap:DisplayName>
+            <uap:Logo>Assets\ps1file.png</uap:Logo>
+            <uap:EditFlags AlwaysUnsafe="true"/>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.psd1</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="psm1file">
+            <uap:DisplayName>ms-resource:Resources/FileTypeDisplayName_Psm1file</uap:DisplayName>
+            <uap:Logo>Assets\ps1file.png</uap:Logo>
+            <uap:EditFlags AlwaysUnsafe="true"/>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.psm1</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="txtfile">
+            <uap:DisplayName>ms-resource:Resources/FileTypeDisplayName_Txtfile</uap:DisplayName>
+            <uap:Logo>Assets\txtfile.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.scp</uap:FileType>
+              <uap:FileType>.log</uap:FileType>
+              <uap:FileType>.wtx</uap:FileType>
+              <uap:FileType uap4:ShellNewFileName="Assets\NewTextDocument.txt" uap4:ShellNewDisplayName="ms-resource:Resources/ShellNewDisplayName_Txt">.txt</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap2:SupportedVerbs>
+              <uap3:Verb Id="Edit" Parameters="%1">ms-resource:Resources/ShellContextMenuEdit</uap3:Verb>
+              <uap3:Verb Id="Print" Parameters="/p %1">ms-resource:Resources/ShellContextMenuPrint</uap3:Verb>
+              <uap3:Verb Id="PrintTo" Parameters="/pt &quot;%1&quot; &quot;%2&quot; &quot;%3&quot; &quot;%4&quot;">ms-resource:Resources/ShellContextMenuPrint</uap3:Verb>
+            </uap2:SupportedVerbs>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="anyfile">
+            <uap:Logo>Assets\txtfile.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap10:FileType>*</uap10:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:SurrogateServer DisplayName="Notepad Shell Extensions">
+              <com:Class Id="CA6CC9F1-867A-481E-951E-A28C5E4F01EA" Path="NotepadExplorerCommand\NotepadExplorerCommand.dll" ThreadingModel="STA"/>
+            </com:SurrogateServer>
+          </com:ComServer>
+        </com:Extension>
+        <desktop4:Extension Category="windows.fileExplorerContextMenus">
+          <desktop4:FileExplorerContextMenus>
+            <desktop4:ItemType Type="*">
+              <desktop4:Verb Id="OpenInNotepad" Clsid="CA6CC9F1-867A-481E-951E-A28C5E4F01EA"/>
+            </desktop4:ItemType>
+            <desktop5:ItemType Type="Directory">
+              <desktop5:Verb Id="OpenInNotepad" Clsid="CA6CC9F1-867A-481E-951E-A28C5E4F01EA"/>
+            </desktop5:ItemType>
+          </desktop4:FileExplorerContextMenus>
+        </desktop4:Extension>
+        <rescap3:Extension Category="windows.desktopAppMigration">
+          <rescap3:DesktopAppMigration>
+            <rescap3:DesktopApp AumId="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\notepad.exe"/>
+            
+            <rescap3:DesktopApp AumId="{D65231B0-B2F1-4857-A4CE-A8E7C6EA7D27}\notepad.exe"/>
+            
+            <rescap3:DesktopApp AumId="{F38BF404-1D43-42F2-9305-67DE0B28FC23}\notepad.exe"/>
+            
+          </rescap3:DesktopAppMigration>
+        </rescap3:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust"/>
+    <rescap:Capability Name="enterpriseDataPolicy"/>
+    <rescap:Capability Name="unvirtualizedResources"/>
+  </Capabilities>
+  <Extensions>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>Notepad\NotepadXamlUI.dll</Path>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.BoxUnboxConverter" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ExpanderExDescriptor" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ExpanderExWrapper" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ContentDialogScrollableTextContent" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.TitleBarBackIconControl" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ThemeSettingSection" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.MainMenuBar" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.FindReplaceDialogViewModel" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.SettingViewModel" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.XamlResourceFactory" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ExpanderExQuadratePanel" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.FindReplaceExpandButton" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.TabsBar" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.BindableBase" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ExpanderExQuadratePanelAutomationPeer" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.GotoDialogContentViewModel" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.App" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.WordWrapSettingSection" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ThemeTextConverter" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ExpanderExItemSeparator" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.StatusBarItem" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.Utilities.ResourceString" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.TabData" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.GhostFileSettingSection" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.StatusBar" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ContextMenu" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.GotoDialogContent" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.FontSettingSection" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.FindReplaceDialog" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ModalDialogGroup" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ModalDialog" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.FindReplaceExpandButtonAutomationPeer" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.RadioButtonGroup" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ExpanderEx" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.NotepadIcon" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.TabItemViewModel" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.NotepadSettingsPage" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.LocalizedString" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.OpenFileSettingSection" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.LocalizedVirtualKey" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.SystemFont" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.XamlMetaDataProvider" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ExpanderExMenuPanel" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.OpenFileTextConverter" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.ScrollBar" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.CustomComboBox" ThreadingModel="both"/>
+        <ActivatableClass ActivatableClassId="NotepadXamlUI.TabsBarItem" ThreadingModel="both"/>
+      </InProcessServer>
+    </Extension>
+  </Extensions>
+  <build:Metadata>
+    <build:Item Name="Microsoft.Build.DesktopBridge.Tasks.dll" Version="17.8.37176.49943"/>
+    <build:Item Name="TargetFrameworkMoniker" Value=".NETFramework,Version=v4.5.1"/>
+    <build:Item Name="VisualStudio" Version="17.0"/>
+    <build:Item Name="OperatingSystem" Version="10.0.20348.1 (WinBuild.160101.0800)"/>
+    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="17.8.37259.26410"/>
+    <build:Item Name="ProjectGUID" Value="fa04dae0-79d2-4bbe-b3b2-cc4967337789"/>
+    <build:Item Name="MakePri.exe" Version="10.0.22000.832 (WinBuild.160101.0800)"/>
+  </build:Metadata>
+</Package>

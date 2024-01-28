@@ -1,4 +1,7 @@
-﻿using Avalonia;
+﻿using System.Runtime.CompilerServices;
+using Avalonia;
+
+[assembly: InternalsVisibleTo("Windows11ContextMenuManager.Tests")]
 
 namespace Windows11ContextMenuManager;
 
