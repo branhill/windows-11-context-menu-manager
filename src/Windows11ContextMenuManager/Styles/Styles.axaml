@@ -1,0 +1,40 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <!-- Add Controls for Previewer Here -->
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="WindowNotificationManager.bottom-center /template/ ReversibleStackPanel#PART_Items">
+    <Setter Property="ReverseOrder"
+            Value="True" />
+    <Setter Property="VerticalAlignment"
+            Value="Bottom" />
+    <Setter Property="HorizontalAlignment"
+            Value="Center" />
+  </Style>
+
+  <Style Selector="Button.icon-button">
+    <Setter Property="BorderThickness"
+            Value="0" />
+    <Setter Property="Background"
+            Value="Transparent" />
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background"
+              Value="{DynamicResource ControlFillColorDefaultBrush}" />
+    </Style>
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background"
+              Value="Transparent" />
+    </Style>
+  </Style>
+
+  <Style Selector="TextBlock.caption">
+    <Setter Property="FontSize"
+            Value="13" />
+    <Setter Property="Foreground"
+            Value="{DynamicResource SystemBaseMediumColor}" />
+  </Style>
+
+</Styles>

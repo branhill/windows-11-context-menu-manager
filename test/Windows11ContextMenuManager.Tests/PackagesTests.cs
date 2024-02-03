@@ -9,7 +9,10 @@ public class PackagesTests
     {
         var extensions = await Packages.GetExtensions();
 
-        Assert.NotEmpty(extensions);
+        if (Packages.GetPackagedComPackages().Length != 0)
+        {
+            Assert.NotEmpty(extensions);
+        }
     }
 
     [Theory]
@@ -17,7 +20,7 @@ public class PackagesTests
     public async Task AnalyzeManifestTest(string name, ExtensionExpected[] expected)
     {
         var installPath = Path.Join("Data", name);
-        var pkg = new Pkg(name, name, name, name, name, installPath);
+        var pkg = new Pkg(name, name, name, name, name, installPath, new Version());
 
         var res = (await Packages.AnalyzeManifest(pkg, false)).ToDictionary(x => x.Id, x => x);
 
@@ -40,7 +43,7 @@ public class PackagesTests
                     new ExtensionExpected(
                         "CA6CC9F1-867A-481E-951E-A28C5E4F01EA",
                         @"NotepadExplorerCommand\NotepadExplorerCommand.dll",
-                        ["*", "Directory"])
+                        ["File: *", "Directory"])
                 ]
             }
         };

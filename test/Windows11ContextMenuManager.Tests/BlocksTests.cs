@@ -1,21 +1,27 @@
 ﻿using Microsoft.Win32;
 using Windows11ContextMenuManager.Core;
+using Windows11ContextMenuManager.Helpers;
 
 namespace Windows11ContextMenuManager.Tests;
 
 public class BlocksTests
 {
+    public BlocksTests()
+    {
+        Blocks.LoadAll();
+    }
+
     [Fact]
     public void IsReadOnlyTest()
     {
-        Assert.False(Blocks.CurrentUser.IsReadOnly);
-        Assert.NotEqual(Permissions.IsElevated, Blocks.LocalMachine.IsReadOnly);
+        Assert.False(Blocks.User.IsReadOnly);
+        Assert.NotEqual(Permissions.IsElevated, Blocks.Machine.IsReadOnly);
     }
 
     [Fact]
     public void ReadWriteTest()
     {
-        var blocks = Blocks.CurrentUser;
+        var blocks = Blocks.User;
         var id = Guid.NewGuid().ToString().ToUpper();
         var beforeCount = blocks.Count;
 
@@ -24,7 +30,7 @@ public class BlocksTests
         Assert.Equal(beforeCount + 1, blocks.Count);
         Assert.Contains(id, blocks);
 
-        blocks.Reload();
+        blocks.Load();
 
         Assert.Equal(beforeCount + 1, blocks.Count);
         Assert.Contains(id, blocks);
@@ -40,7 +46,7 @@ public class BlocksTests
         Assert.Equal(beforeCount, blocks.Count);
         Assert.DoesNotContain(id, blocks);
 
-        blocks.Reload();
+        blocks.Load();
 
         Assert.Equal(beforeCount, blocks.Count);
         Assert.DoesNotContain(id, blocks);

@@ -1,6 +1,6 @@
 ﻿using System.Security.Principal;
 
-namespace Windows11ContextMenuManager.Core;
+namespace Windows11ContextMenuManager.Helpers;
 
 public static class Permissions
 {

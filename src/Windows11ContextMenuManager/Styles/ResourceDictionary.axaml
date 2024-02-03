@@ -1,0 +1,89 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key="Default">
+      <Color x:Key="ControlFillColorDefault">#B3FFFFFF</Color>
+      <Color x:Key="ControlFillColorSecondary">#80F9F9F9</Color>
+      <Color x:Key="ControlFillColorTertiary">#4DF9F9F9</Color>
+      <Color x:Key="ControlFillColorDisabled">#4DF9F9F9</Color>
+      <Color x:Key="ControlStrokeColorDefault">#0F000000</Color>
+      <Color x:Key="ControlStrokeColorSecondary">#29000000</Color>
+    </ResourceDictionary>
+
+    <ResourceDictionary x:Key="Dark">
+      <Color x:Key="ControlFillColorDefault">#0FFFFFFF</Color>
+      <Color x:Key="ControlFillColorSecondary">#15FFFFFF</Color>
+      <Color x:Key="ControlFillColorTertiary">#08FFFFFF</Color>
+      <Color x:Key="ControlFillColorDisabled">#0BFFFFFF</Color>
+      <Color x:Key="ControlStrokeColorDefault">#12FFFFFF</Color>
+      <Color x:Key="ControlStrokeColorSecondary">#18FFFFFF</Color>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+
+  <SolidColorBrush x:Key="ControlFillColorDefaultBrush"
+                   Color="{DynamicResource ControlFillColorDefault}" />
+  <SolidColorBrush x:Key="ControlFillColorSecondaryBrush"
+                   Color="{DynamicResource ControlFillColorSecondary}" />
+  <SolidColorBrush x:Key="ControlFillColorTertiaryBrush"
+                   Color="{DynamicResource ControlFillColorTertiary}" />
+  <SolidColorBrush x:Key="ControlFillColorDisabledBrush"
+                   Color="{DynamicResource ControlFillColorDisabled}" />
+  <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush"
+                   Color="{DynamicResource ControlStrokeColorDefault}" />
+  <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush"
+                   Color="{DynamicResource ControlStrokeColorSecondary}" />
+  <LinearGradientBrush x:Key="ControlElevationBorderBrush"
+                       StartPoint="0,0"
+                       EndPoint="0,3"
+                       TransformOrigin="50%,50%">
+    <LinearGradientBrush.Transform>
+      <ScaleTransform ScaleY="-1" />
+    </LinearGradientBrush.Transform>
+    <LinearGradientBrush.GradientStops>
+      <GradientStop Offset="0.33"
+                    Color="{StaticResource ControlStrokeColorSecondary}" />
+      <GradientStop Offset="1"
+                    Color="{StaticResource ControlStrokeColorDefault}" />
+    </LinearGradientBrush.GradientStops>
+  </LinearGradientBrush>
+
+  <StaticResource x:Key="ButtonBackground"
+                  ResourceKey="ControlFillColorDefaultBrush" />
+  <StaticResource x:Key="ButtonBackgroundPointerOver"
+                  ResourceKey="ControlFillColorSecondaryBrush" />
+  <StaticResource x:Key="ButtonBackgroundPressed"
+                  ResourceKey="ControlFillColorTertiaryBrush" />
+  <StaticResource x:Key="ButtonBackgroundDisabled"
+                  ResourceKey="ControlFillColorDisabledBrush" />
+  <StaticResource x:Key="ButtonBorderBrush"
+                  ResourceKey="ControlElevationBorderBrush" />
+  <StaticResource x:Key="ButtonBorderBrushPointerOver"
+                  ResourceKey="ControlElevationBorderBrush" />
+  <StaticResource x:Key="ButtonBorderBrushPressed"
+                  ResourceKey="ControlStrokeColorDefaultBrush" />
+  <StaticResource x:Key="ButtonBorderBrushDisabled"
+                  ResourceKey="ControlStrokeColorDefaultBrush" />
+
+  <StaticResource x:Key="ExpanderHeaderBackground"
+                  ResourceKey="ControlFillColorDefaultBrush" />
+  <StaticResource x:Key="ExpanderHeaderBackgroundPointerOver"
+                  ResourceKey="ControlFillColorSecondaryBrush" />
+  <StaticResource x:Key="ExpanderHeaderBackgroundPressed"
+                  ResourceKey="ControlFillColorSecondaryBrush" />
+  <StaticResource x:Key="ExpanderHeaderBackgroundDisabled"
+                  ResourceKey="ControlFillColorDefaultBrush" />
+  <StaticResource x:Key="ExpanderHeaderBorderBrush"
+                  ResourceKey="ControlElevationBorderBrush" />
+  <StaticResource x:Key="ExpanderHeaderBorderBrushPointerOver"
+                  ResourceKey="ControlElevationBorderBrush" />
+  <StaticResource x:Key="ExpanderHeaderBorderBrushPressed"
+                  ResourceKey="ControlElevationBorderBrush" />
+  <StaticResource x:Key="ExpanderHeaderBorderBrushDisabled"
+                  ResourceKey="ControlElevationBorderBrush" />
+  <StaticResource x:Key="ExpanderContentBackground"
+                  ResourceKey="ControlFillColorDefaultBrush" />
+  <StaticResource x:Key="ExpanderContentBorderBrush"
+                  ResourceKey="ControlElevationBorderBrush" />
+
+</ResourceDictionary>

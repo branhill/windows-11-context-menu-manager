@@ -3,6 +3,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Win32;
 using Windows.Management.Deployment;
+using Windows11ContextMenuManager.Helpers;
 
 namespace Windows11ContextMenuManager.Core;
 
@@ -11,45 +12,51 @@ public static class Packages
     private const string NsCom = "http://schemas.microsoft.com/appx/manifest/com/windows10";
     private const string NsDesktop4 = "http://schemas.microsoft.com/appx/manifest/desktop/windows10/4";
 
-    public static async Task<IDictionary<string, Extension>> GetExtensions()
+    public static async Task<ICollection<Extension>> GetExtensions()
     {
         var comPackages = GetPackagedComPackages();
-
         var packageManager = new PackageManager();
-        var packages = Permissions.IsElevated
-            ? packageManager.FindPackages()
-            : packageManager.FindPackagesForUser("");
-
         var extensions = new ConcurrentDictionary<string, Extension>();
-        await Parallel.ForEachAsync(packages, new ParallelOptions { MaxDegreeOfParallelism = 4 }, async (package, _) =>
+        await Parallel.ForEachAsync(comPackages, new ParallelOptions { MaxDegreeOfParallelism = 4 }, async (fullName, _) =>
         {
-            if (!comPackages.Contains(package.Id.FullName))
-                return;
             try
             {
+                var package = Permissions.IsElevated
+                    ? packageManager.FindPackage(fullName)
+                    : packageManager.FindPackageForUser("", fullName);
+                if (package is null)
+                    return;
+                var ver = package.Id.Version;
                 var pkg = new Pkg(
                     package.Id.FamilyName,
                     package.Id.FullName,
                     package.DisplayName,
                     package.PublisherDisplayName,
                     package.Logo.LocalPath,
-                    package.InstalledLocation.Path);
+                    package.InstalledLocation.Path,
+                    new Version(ver.Major, ver.Minor, ver.Build, ver.Revision));
                 var res = await AnalyzeManifest(pkg, package.IsBundle);
                 foreach (var item in res)
-                    extensions[item.Id] = item;
+                {
+                    if (!extensions.TryGetValue(item.Id, out var existing) ||
+                        existing.Package.Version < item.Package.Version)
+                    {
+                        extensions[item.Id] = item;
+                    }
+                }
             }
             catch (Exception)
             {
                 // ignored
             }
         });
-        return extensions;
+        return extensions.Values;
     }
 
-    private static HashSet<string> GetPackagedComPackages()
+    internal static string[] GetPackagedComPackages()
     {
         using var subKey = Registry.ClassesRoot.OpenSubKey(@"PackagedCom\Package");
-        return subKey?.GetSubKeyNames().ToHashSet() ?? [];
+        return subKey?.GetSubKeyNames() ?? [];
     }
 
     internal static async Task<IEnumerable<Extension>> AnalyzeManifest(Pkg pkg, bool isBundle)
@@ -88,10 +95,11 @@ public static class Packages
                         where itemType.Name.LocalName == "ItemType"
                         from verb in itemType.Elements()
                         where verb.Name.LocalName == "Verb"
+                        let type = itemType.Attribute("Type")?.Value
                         let item = new ContextMenu(
                             verb.Attribute("Clsid")?.Value,
                             verb.Attribute("Id")?.Value,
-                            itemType.Attribute("Type")?.Value)
+                            type.Contains("Directory") ? type : $"File: {type}")
                         group item by item.Clsid;
                     contextMenus = query.ToDictionary(x => x.Key, x => x.ToList());
                     break;
@@ -130,7 +138,8 @@ public record Pkg(
     string DisplayName,
     string PublisherDisplayName,
     string Logo,
-    string InstallPath);
+    string InstallPath,
+    Version Version);
 
 public record ContextMenu(
     string? Clsid,

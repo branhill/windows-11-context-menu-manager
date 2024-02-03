@@ -3,14 +3,230 @@
         xmlns:vm="using:Windows11ContextMenuManager.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
+        d:DesignWidth="800"
+        d:DesignHeight="600"
         x:Class="Windows11ContextMenuManager.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
+        x:DataType="vm:MainViewModel"
         Icon="/Assets/icon.ico"
-        Title="Windows11ContextMenuManager">
+        Title="Windows 11 Context Menu Manager"
+        Width="1024"
+        Height="768"
+        WindowStartupLocation="CenterScreen"
+        TransparencyLevelHint="Mica,AcrylicBlur"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="34"
+        RenderOptions.TextRenderingMode="Antialias"
+        RenderOptions.BitmapInterpolationMode="HighQuality">
 
   <Design.DataContext>
-    <vm:MainWindowViewModel/>
+    <vm:MainViewModel />
   </Design.DataContext>
 
+  <Window.Styles>
+    <Style Selector="Window[ActualTransparencyLevel=Mica]">
+      <Setter Property="Background"
+              Value="Transparent"/>
+      <Style Selector="^[IsActive=False]">
+        <Setter Property="Background"
+                Value="{DynamicResource ControlFillColorDefaultBrush}"/>
+      </Style>
+    </Style>
+    <Style Selector="Window[ActualTransparencyLevel=AcrylicBlur]">
+      <Setter Property="Background"
+              Value="{DynamicResource ControlFillColorSecondaryBrush}"/>
+      <Style Selector="^[IsActive=False]">
+        <Setter Property="Background"
+                Value="{DynamicResource ControlFillColorDefaultBrush}"/>
+      </Style>
+    </Style>
+
+    <Style Selector="Window[IsActive=False] TextBlock#WindowTitle">
+      <Setter Property="Foreground"
+              Value="{DynamicResource SystemBaseMediumColor}"/>
+    </Style>
+  </Window.Styles>
+
+  <Grid RowDefinitions="34,Auto,*">
+    <DockPanel IsHitTestVisible="False">
+      <Image Source="/Assets/icon.ico"
+             Width="16"
+             Height="16"
+             Margin="8,0" />
+      <TextBlock Name="WindowTitle"
+                 Text="{Binding $parent[Window].Title}"
+                 FontSize="12"
+                 VerticalAlignment="Center" />
+    </DockPanel>
+
+    <Border Grid.Row="1"
+            Padding="16,4,16,16"
+            MaxWidth="1000">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <Button Command="{Binding LoadCommand}"
+                Classes="icon-button"
+                ToolTip.Tip="{Binding LoadElapsed, StringFormat='Refresh ({0}ms)'}">
+          <PathIcon Data="{StaticResource ArrowClockwise}" />
+        </Button>
+        <TextBox Grid.Column="1"
+                 Text="{Binding Search}"
+                 MaxWidth="500"
+                 Margin="16,0"
+                 Watermark="Search"
+                 Classes="clearButton">
+          <TextBox.InnerLeftContent>
+            <PathIcon Data="{StaticResource Search}"
+                      Width="16"
+                      Margin="8,0,0,0" />
+          </TextBox.InnerLeftContent>
+        </TextBox>
+
+        <DockPanel Grid.Column="2">
+          <Label Target="ScopeComboBox"
+                 VerticalAlignment="Center"
+                 Margin="0,0,4,0">
+            Disable for
+          </Label>
+          <ComboBox Name="ScopeComboBox"
+                    SelectedValue="{Binding Scope}"
+                    ItemsSource="{Binding Scopes}"
+                    SelectedValueBinding="{Binding $self.((vm:BlockScopeItem)DataContext).Value}">
+            <ComboBox.Styles>
+              <Style Selector="ComboBoxItem">
+                <Setter Property="IsEnabled"
+                        Value="{Binding IsEnabled}"
+                        x:DataType="vm:BlockScopeItem" />
+              </Style>
+            </ComboBox.Styles>
+            <ComboBox.ItemTemplate>
+              <DataTemplate DataType="vm:BlockScopeItem">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="{Binding Name}" />
+                  <PathIcon IsVisible="{Binding !IsEnabled}"
+                            Data="{StaticResource WindowShield}"
+                            Margin="8,0,0,0"
+                            Foreground="{DynamicResource SystemBaseLowColor}" />
+                </StackPanel>
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+
+          <StackPanel Margin="16,0,0,0">
+            <Button Command="{Binding CollapseAllCommand}"
+                    Classes="icon-button"
+                    ToolTip.Tip="Collapse All">
+              <PathIcon Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}"
+                        Height="5" />
+            </Button>
+            <Button Command="{Binding ExpandAllCommand}"
+                    Classes="icon-button"
+                    ToolTip.Tip="Expand All">
+              <PathIcon Data="{StaticResource ButtonSpinnerDecreaseButtonIcon}"
+                        Height="5" />
+            </Button>
+          </StackPanel>
+        </DockPanel>
+      </Grid>
+    </Border>
+
+    <ScrollViewer Grid.Row="2"
+                  IsEnabled="{Binding !LoadCommand.IsRunning}">
+      <ItemsControl ItemsSource="{Binding DisplayItems}"
+                    MaxWidth="1000">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <VirtualizingStackPanel />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="vm:ItemViewModel">
+            <Expander HorizontalAlignment="Stretch"
+                      Margin="16,0,16,8"
+                      IsExpanded="{Binding IsExpanded}">
+              <Expander.Styles>
+                <Style Selector="ToggleButton#ExpanderHeader">
+                  <Setter Property="Padding"
+                          Value="0" />
+                </Style>
+              </Expander.Styles>
+              <Expander.Header>
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                  <Image Width="40"
+                         Height="40"
+                         Source="{Binding Logo^}"
+                         Margin="8,4" />
+                  <StackPanel Grid.Column="1"
+                              Margin="0,6">
+                    <DockPanel>
+                      <TextBlock Text="{Binding Info.Package.DisplayName}"
+                                 TextTrimming="CharacterEllipsis"/>
+                      <Button Command="{Binding CopyDisplayNameCommand}"
+                              CommandParameter="{Binding $self}"
+                              Classes="icon-button"
+                              Padding="4"
+                              ToolTip.Tip="Copy">
+                        <PathIcon Data="{StaticResource Copy}"
+                                  Width="10"
+                                  Height="10"
+                                  Foreground="{DynamicResource SystemBaseLowColor}" />
+                      </Button>
+                      <TextBlock Text="{Binding Info.Package.FamilyName, StringFormat='∣ {0}'}"
+                                 Classes="caption"
+                                 TextTrimming="CharacterEllipsis" />
+                      <Button Command="{Binding CopyFamilyNameCommand}"
+                              CommandParameter="{Binding $self}"
+                              Classes="icon-button"
+                              Padding="4"
+                              ToolTip.Tip="Copy">
+                        <PathIcon Data="{StaticResource Copy}"
+                                  Width="10"
+                                  Height="10"
+                                  Foreground="{DynamicResource SystemBaseLowColor}" />
+                      </Button>
+                    </DockPanel>
+                    <TextBlock Classes="caption"
+                               TextTrimming="CharacterEllipsis">
+                      <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} ∣ {1}">
+                          <Binding Path="Info.ComServer.DisplayName" />
+                          <Binding Path="Info.ContextMenus[0].Id" />
+                        </MultiBinding>
+                      </TextBlock.Text>
+                    </TextBlock>
+                  </StackPanel>
+                  <ToggleSwitch Grid.Column="2"
+                                IsChecked="{Binding IsEnabled}"
+                                Command="{Binding UpdateIsEnabledCommand}" />
+                </Grid>
+              </Expander.Header>
+              <StackPanel>
+                <ItemsControl ItemsSource="{Binding Info.ContextMenus}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Type}"
+                                 FontSize="12" />
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Rectangle HorizontalAlignment="Stretch"
+                           Fill="{DynamicResource ControlElevationBorderBrush}"
+                           Height="1"
+                           Margin="-16,16" />
+                <DockPanel>
+                  <Button Content="Open file location"
+                          Command="{Binding OpenFileLocationCommand}" />
+                  <Button Content="App settings"
+                          Command="{Binding AppSettingsCommand}"
+                          Margin="8,0,0,0" />
+                  <Button Content="Microsoft Store"
+                          Command="{Binding MicrosoftStoreCommand}"
+                          Margin="8,0,0,0" />
+                </DockPanel>
+              </StackPanel>
+            </Expander>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+  </Grid>
 </Window>
