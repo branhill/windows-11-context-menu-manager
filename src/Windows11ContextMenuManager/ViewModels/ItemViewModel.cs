@@ -11,7 +11,7 @@ using Windows11ContextMenuManager.Helpers;
 
 namespace Windows11ContextMenuManager.ViewModels;
 
-public partial class ItemViewModel : ObservableObject
+public partial class ItemViewModel : ObservableRecipient
 {
     [ObservableProperty]
     private bool _isEnabled;
@@ -53,6 +53,11 @@ public partial class ItemViewModel : ObservableObject
                     blocks.Remove(Info.Id);
             else
                 Blocks.GetScope(Blocks.WriteScope).Add(Info.Id);
+
+            Messenger.Send(new Notification(
+                "Success",
+                $"{Info.Package.DisplayName} context menu {(IsEnabled ? "enabled" : "disabled")}",
+                NotificationType.Success));
         });
         IsEnabled = GetIsEnabled();
     }
@@ -87,23 +92,44 @@ public partial class ItemViewModel : ObservableObject
         Start($"ms-windows-store://pdp?PFN={Info.Package.FamilyName}");
     }
 
+    [RelayCommand]
+    private async Task Uninstall()
+    {
+        await Try.Run(async () =>
+        {
+            var info = new ProcessStartInfo
+            {
+                FileName = "powershell",
+                UseShellExecute = true
+            };
+            info.ArgumentList.Add("-c");
+            info.ArgumentList.Add($"Remove-AppxPackage {Info.Package.FullName} -Confirm");
+            using var process = Process.Start(info);
+            await (process?.WaitForExitAsync() ?? Task.CompletedTask);
+            Messenger.Send(new ReloadMessage());
+        });
+    }
+
     private bool GetIsEnabled()
     {
         return !Blocks.GetScopes().Any(x => x.Contains(Info.Id));
     }
 
-    private static async Task Copy(Visual sender, string text)
+    private async Task Copy(Visual sender, string text)
     {
         if (TopLevel.GetTopLevel(sender)?.Clipboard is { } clipboard)
         {
             await clipboard.SetTextAsync(text);
-            WeakReferenceMessenger.Default.Send(
+            Messenger.Send(
                 new Notification("Success", "Copied to clipboard", NotificationType.Success));
         }
     }
 
     private static void Start(string cmd)
     {
-        Try.Run(() => Process.Start(new ProcessStartInfo { FileName = cmd, UseShellExecute = true }));
+        Try.Run(() =>
+        {
+            using var _ = Process.Start(new ProcessStartInfo { FileName = cmd, UseShellExecute = true });
+        });
     }
 }

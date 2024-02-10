@@ -28,6 +28,18 @@
       <Setter Property="Background"
               Value="Transparent" />
     </Style>
+    <Style Selector="^:pointerover PathIcon">
+      <Setter Property="Foreground"
+              Value="{DynamicResource ButtonForegroundPointerOver}" />
+    </Style>
+    <Style Selector="^:pressed PathIcon">
+      <Setter Property="Foreground"
+              Value="{DynamicResource ButtonForegroundPressed}" />
+    </Style>
+    <Style Selector="^:disabled PathIcon">
+      <Setter Property="Foreground"
+              Value="{DynamicResource ButtonForegroundDisabled}" />
+    </Style>
   </Style>
 
   <Style Selector="TextBlock.caption">

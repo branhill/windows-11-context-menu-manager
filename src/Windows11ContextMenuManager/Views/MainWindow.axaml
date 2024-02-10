@@ -68,6 +68,7 @@
                 ToolTip.Tip="{Binding LoadElapsed, StringFormat='Refresh ({0}ms)'}">
           <PathIcon Data="{StaticResource ArrowClockwise}" />
         </Button>
+
         <TextBox Grid.Column="1"
                  Text="{Binding Search}"
                  MaxWidth="500"
@@ -138,6 +139,19 @@
             <VirtualizingStackPanel />
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
+        <ItemsControl.Styles>
+          <Style Selector="ItemsControl:empty" >
+            <Setter Property="Background">
+              <Setter.Value>
+                <VisualBrush Stretch="None">
+                  <VisualBrush.Visual>
+                    <TextBlock Text="No Items Found." />
+                  </VisualBrush.Visual>
+                </VisualBrush>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ItemsControl.Styles>
         <ItemsControl.ItemTemplate>
           <DataTemplate DataType="vm:ItemViewModel">
             <Expander HorizontalAlignment="Stretch"
@@ -220,6 +234,9 @@
                           Margin="8,0,0,0" />
                   <Button Content="Microsoft Store"
                           Command="{Binding MicrosoftStoreCommand}"
+                          Margin="8,0,0,0" />
+                  <Button Content="Uninstall"
+                          Command="{Binding UninstallCommand}"
                           Margin="8,0,0,0" />
                 </DockPanel>
               </StackPanel>

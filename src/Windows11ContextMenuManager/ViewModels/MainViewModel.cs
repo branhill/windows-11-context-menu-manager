@@ -1,12 +1,15 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Windows11ContextMenuManager.Core;
 using Windows11ContextMenuManager.Helpers;
 
 namespace Windows11ContextMenuManager.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+public partial class MainViewModel : ObservableRecipient, IRecipient<ReloadMessage>
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(DisplayItems))]
@@ -47,9 +50,11 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026")]
     public MainViewModel()
     {
-        Task.Run(Load);
+        Dispatcher.UIThread.InvokeAsync(() => LoadCommand.ExecuteAsync(null));
+        IsActive = true;
     }
 
     [RelayCommand]
@@ -90,9 +95,16 @@ public partial class MainViewModel : ObservableObject
         if (value is { } val)
             Blocks.WriteScope = val;
     }
+
+    public void Receive(ReloadMessage message)
+    {
+        Dispatcher.UIThread.InvokeAsync(() => LoadCommand.ExecuteAsync(null));
+    }
 }
 
 public record BlockScopeItem(
     BlockScope Value,
     string Name,
     bool IsEnabled);
+
+public record ReloadMessage();
